@@ -34,11 +34,16 @@ public boolean checkUserName(String username){
 }
 //checking if the user's password suits the cirteria
 public boolean CheckPassword(String password){
-    if (password.contains("A-Z"+ "0-9" +"^a-zA-z0-9")&& password.length()>=8){
-        return true;
-    }else{
+    if(password.length()<8){
         return false;
-    }            
+    }if(password.matches(".*[A-Z].*")){
+        return false;
+    }if(password.matches(".*[0-9].*")){
+        return false;
+    }if(!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")){
+        return false;
+    }
+    return true;
 }
 //check if user's number is a valid cellphone number
 public boolean CheckPhoneNumber(String cellNumber){
