@@ -18,6 +18,15 @@ public class LoginTest {
 
     @Test
     public void testSomeMethod() {
+        Login user = new Login();
+        
+        boolean result = user.checkUserName("kyl_1");
+        assertTrue(result);
     }
-    
+    public void testUsernameIncorrectlyFormat(){
+         Login user = new Login();
+         
+         boolean result = user.checkUserName("Kyle!!!!!");
+         assertFalse(result);
+    }
 }

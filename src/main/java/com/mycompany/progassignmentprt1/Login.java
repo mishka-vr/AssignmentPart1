@@ -63,7 +63,7 @@ public String RegisterUser(String username, String password, String cellNumber){
 }
  public String returnUserLoginStatus(boolean LoginSuscessful, boolean LoginUnsuccesfull){
      if(LoginSuscessful){
-         return "Welcome back " +firstName;
+         return "Welcome back " +firstName + " it is great to see you";
      }else if(LoginUnsuccesfull){
          return "Username or password incorrect";
      }else{
