@@ -15,7 +15,7 @@ public class LoginTest {
     
     public LoginTest() {
     }
-
+    //username test
     @Test
     public void testSomeMethod() {
         Login user = new Login();
@@ -23,10 +23,27 @@ public class LoginTest {
         boolean result = user.checkUserName("kyl_1");
         assertTrue(result);
     }
+    @Test
     public void testUsernameIncorrectlyFormat(){
          Login user = new Login();
          
          boolean result = user.checkUserName("Kyle!!!!!");
          assertFalse(result);
+    }
+    //password test
+    @Test
+    public void testpasswordMeetsCriteria(){
+         Login user = new Login();
+         
+         boolean result = user.CheckPassword("Ch&&sec@keg9");
+         assertFalse(result);
+    }
+    //test cellphone number
+    @Test
+    public void testCellphoneNumber(){
+        Login user = new Login();
+        
+        boolean result = user.CheckPhoneNumber("+278966553");
+        assertTrue(result);
     }
 }

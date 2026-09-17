@@ -34,7 +34,7 @@ public boolean checkUserName(String username){
 }
 //checking if the user's password suits the cirteria
 public boolean CheckPassword(String password){
-    if (password.contains("A-Z"+"0-9"+"a-zA-z0-9")&& password.length()==8){
+    if (password.contains("A-Z"+ "0-9" +"^a-zA-z0-9")&& password.length()>=8){
         return true;
     }else{
         return false;
