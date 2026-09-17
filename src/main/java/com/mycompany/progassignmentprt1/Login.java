@@ -38,8 +38,7 @@ public boolean CheckPassword(String password){
         return true;
     }else{
         return false;
-    }
-       
+    }            
 }
 //check if user's number is a valid cellphone number
 public boolean CheckPhoneNumber(String cellNumber){

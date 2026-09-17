@@ -36,14 +36,44 @@ public class LoginTest {
          Login user = new Login();
          
          boolean result = user.CheckPassword("Ch&&sec@keg9");
+         assertTrue(result);
+    }
+    @Test
+    public void testpasswordDoesntMeetCriteria(){
+         Login user = new Login();
+         
+         boolean result = user.CheckPassword("password");
          assertFalse(result);
     }
     //test cellphone number
     @Test
-    public void testCellphoneNumber(){
+    public void testCellphoneNumberCorrectlyFormatted(){
         Login user = new Login();
         
         boolean result = user.CheckPhoneNumber("+278966553");
         assertTrue(result);
     }
+    @Test
+     public void testCellphoneNumberInorrectlyFormatted(){
+        Login user = new Login();
+        
+        boolean result = user.CheckPhoneNumber("08966553");
+        assertFalse(result);
+    }
+     //Login tests
+     @Test
+     public void testUserLoginSucessfull(){
+         Login user = new Login();
+         
+         user.RegisterUser("kyl_1", "Ch&&sec@keg9", "+278966553");
+         boolean result = user.UserLogin("kyl_1","Ch&&sec@keg9", "+278966553");
+         assertTrue(result);
+     }
+     @Test
+     public void testUserLoginUnsucessfull(){
+         Login user = new Login();
+         
+         boolean result = user.UserLogin("kyl_1","Ch&&sec@keg9", "+278966553");
+         assertTrue(result);
+     }
 }
