@@ -17,7 +17,7 @@ public class LoginTest {
     }
     //username test
     @Test
-    public void testSomeMethod() {
+    public void testUsernameCorrectFormat() {
         Login user = new Login();
         
         boolean result = user.checkUserName("kyl_1");

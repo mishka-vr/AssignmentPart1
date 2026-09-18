@@ -36,9 +36,9 @@ public boolean checkUserName(String username){
 public boolean CheckPassword(String password){
     if(password.length()<8){
         return false;
-    }if(password.matches(".*[A-Z].*")){
+    }if(!password.matches(".*[A-Z].*")){
         return false;
-    }if(password.matches(".*[0-9].*")){
+    }if(!password.matches(".*[0-9].*")){
         return false;
     }if(!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")){
         return false;
