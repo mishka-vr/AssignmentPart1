@@ -54,16 +54,19 @@ public String RegisterUser(String username, String password, String cellNumber){
     if(!checkUserName(username)){
         return "Username does not suit the fixed criteria.";
     }else if(!CheckPassword(password)){
-        return "Username succesfully created";
+        return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
     }else if(!CheckPhoneNumber(cellNumber)){
         return "Cellphone number is not a valid number";
     }else{
+        this.username = username;
+        this.password = password;
+        this.cellNumber = cellNumber;
         return "Your registration was succesfull";
-    }   
- }  
+    }
+}
 //login
  public boolean UserLogin(String username,String password,String cellNumber){
-     return this.username.equals(username)&& this.password.equals(password);
+     return username.equals(this.username) && password.equals(this.password);
 }
  public String returnUserLoginStatus(boolean LoginSuscessful, boolean LoginUnsuccesfull){
      if(LoginSuscessful){
