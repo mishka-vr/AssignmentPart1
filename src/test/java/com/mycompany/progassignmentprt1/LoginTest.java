@@ -65,15 +65,16 @@ public class LoginTest {
      public void testUserLoginSucessfull(){
          Login user = new Login();
          
-         user.RegisterUser("kyl_1", "Ch&&sec@keg9", "+278966553");
-         boolean result = user.UserLogin("kyl_1","Ch&&sec@keg9", "+278966553");
+         user.RegisterUser("kyl_1", "Ch&&sec@ke99!", "+278966553");
+         boolean result = user.UserLogin("kyl_1","Ch&&sec@ke99!", "+278966553");
          assertTrue(result);
      }
      @Test
-     public void testUserLoginUnsucessfull(){
-         Login user = new Login();
-         
-         boolean result = user.UserLogin("kyl_1","Ch&&sec@keg9", "+278966553");
-         assertTrue(result);
-     }
+public void testUserLoginUnsucessfull() {
+    Login user = new Login();
+    user.RegisterUser("kyl_1", "Ch&&sec@ke99!", "+27838968976");
+
+    boolean result = user.UserLogin("kyl_1", "WrongPass1!", "+27838968976");
+    assertFalse(result);
+}
 }
