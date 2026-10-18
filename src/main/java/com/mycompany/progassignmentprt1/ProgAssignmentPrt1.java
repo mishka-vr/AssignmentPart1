@@ -3,36 +3,133 @@
  */
 
 package com.mycompany.progassignmentprt1;
-
+ 
 import java.util.Scanner;
-
+ 
 /**
- *
  * @author Student
  */
 public class ProgAssignmentPrt1 {
-    
+ 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        Login obj= new Login();
-        
+        Login obj = new Login();
+ 
+        //register
         System.out.println("Enter your first name");
-        String firstName = input.nextLine(); 
-        
+        String firstName = input.nextLine();
         System.out.println("Enter last name");
-        String lastName = input.nextLine();        
-        
-        System.out.println("Enter a username (must contain _ and be <= 5 characters):");
-        String username = input.nextLine();
-        obj.checkUserName(username);
-        
-        System.out.println("Enter a password (*+ characters, capiyal letter,number, special character):");
-         String password = input.nextLine();
-        obj.CheckPassword(password);
-         
-        String results = obj.RegisterUser(username, password, username);
-        System.out.println(results);
+        String lastName = input.nextLine();
+        obj.setName(firstName, lastName);
+ 
+        String results;
+        do {
+            System.out.println("Enter a username (must contain _ and be at least 5 characters):");
+            String username = input.nextLine();
+            System.out.println("Enter a password (8+ characters, capital letter, number, special character):");
+            String password = input.nextLine();
+            System.out.println("Enter your cell number (international code, e.g. +27...):");
+            String cell = input.nextLine();
+ 
+            results = obj.RegisterUser(username, password, cell);
+            System.out.println(results);
+        } while (!results.equals("Your registration was succesfull"));
+ 
+        // Login
+        boolean loggedIn = false;
+        for (int attempt = 0; attempt < 3 && !loggedIn; attempt++) {
+            System.out.println("Login - enter username:");
+            String u = input.nextLine();
+            System.out.println("Login - enter password:");
+            String p = input.nextLine();
+            loggedIn = obj.UserLogin(u, p, "");
+            System.out.println(obj.returnUserLoginStatus(loggedIn, !loggedIn));
+        }
+        if (!loggedIn) {
+            System.out.println("Too many failed attempts. Exiting.");
+            return;
+        }
+ 
+        //Quick Chat
+        System.out.println("Welcome to QuickChat.");
+ 
+        int maxMessages = readPositiveInt(input, "How many messages do you wish to enter?");
+        int entered = 0;
+ 
+        boolean running = true;
+        while (running) {
+            System.out.println("\n1) Send Messages");
+            System.out.println("2) Show recently sent messages");
+            System.out.println("3) Quit");
+            String choice = input.nextLine().trim();
+ 
+            switch (choice) {
+                case "1":
+                    if (entered >= maxMessages) {
+                        System.out.println("You have already entered all " + maxMessages + " messages.");
+                        break;
+                    }
+                    while (entered < maxMessages) {
+                        Message msg = createMessage(input);
+                        entered++;
+                        String outcome = msg.SentMessage(input);
+                        System.out.println(outcome);
+                        if (outcome.equals("Message successfully sent")) {
+                            System.out.println(msg.details());
+                        }
+                    }
+                    System.out.println("Total messages sent: " + Message.returnTotalMessages());
+                    break;
+                case "2":
+                    System.out.println("Coming Soon.");
+                    break;
+                case "3":
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid option, please enter 1, 2 or 3.");
+            }
+        }
+        System.out.println("Total messages sent: " + Message.returnTotalMessages());
     }
-       
+ 
+    // asks for recipient + text until both are valid
+    private static Message createMessage(Scanner input) {
+        String recipient;
+        while (true) {
+            System.out.println("Enter recipient cell number (max 10 characters, starting with international code e.g. +27):");
+            recipient = input.nextLine().trim();
+            if (new Message(recipient, "x").checkRecipientCell()) break;
+            System.out.println("Cell number is incorrectly formatted or does not contain an international code.");
+        }
+        String text;
+        while (true) {
+            System.out.println("Enter your message:");
+            text = input.nextLine();
+            if (text.trim().isEmpty()) {
+                System.out.println("Message cannot be empty.");
+            } else if (text.length() > Message.MAX_MESSAGE_LENGTH) {
+                System.out.println("Please enter a message of less than 250 characters.");
+            } else {
+                System.out.println("Message sent");
+                break;
+            }
+        }
+        return new Message(recipient, text);
+    }
+ 
+    private static int readPositiveInt(Scanner input, String prompt) {
+        while (true) {
+            System.out.println(prompt);
+            try {
+                int n = Integer.parseInt(input.nextLine().trim());
+                if (n > 0) return n;
+            } catch (NumberFormatException ignored) { }
+            System.out.println("Please enter a whole number greater than 0.");
+        }
+    }
 }
+
+       
+
 
