@@ -16,32 +16,39 @@ public class ProgAssignmentPrt1 {
         Login obj = new Login();
  
         //register
+        System.out.println("-----------------------------");
         System.out.println("Enter your first name");
         String firstName = input.nextLine();
+        System.out.println("-----------------------------");
         System.out.println("Enter last name");
         String lastName = input.nextLine();
+        System.out.println("-----------------------------");
         obj.setName(firstName, lastName);
- 
         String results;
         do {
             System.out.println("Enter a username (must contain _ and be at least 5 characters):");
             String username = input.nextLine();
+            System.out.println("-----------------------------");
             System.out.println("Enter a password (8+ characters, capital letter, number, special character):");
             String password = input.nextLine();
+            System.out.println("-----------------------------");
             System.out.println("Enter your cell number (international code, e.g. +27...):");
-            String cell = input.nextLine();
- 
-            results = obj.RegisterUser(username, password, cell);
+            String cellNumber = input.nextLine();
+            System.out.println("-----------------------------");
+            results = obj.RegisterUser(username, password, cellNumber);
             System.out.println(results);
         } while (!results.equals("Your registration was succesfull"));
  
         // Login
         boolean loggedIn = false;
         for (int attempt = 0; attempt < 3 && !loggedIn; attempt++) {
+            System.out.println("-----------------------------");
             System.out.println("Login - enter username:");
             String u = input.nextLine();
+            System.out.println("-----------------------------");
             System.out.println("Login - enter password:");
             String p = input.nextLine();
+            System.out.println("-----------------------------");
             loggedIn = obj.UserLogin(u, p, "");
             System.out.println(obj.returnUserLoginStatus(loggedIn, !loggedIn));
         }
@@ -51,18 +58,21 @@ public class ProgAssignmentPrt1 {
         }
  
         //Quick Chat
+        System.out.println("-----------------------------");
         System.out.println("Welcome to QuickChat.");
- 
+        System.out.println("-----------------------------");
         int maxMessages = readPositiveInt(input, "How many messages do you wish to enter?");
         int entered = 0;
- 
+        
         boolean running = true;
         while (running) {
+            System.out.println("-----------------------------");
             System.out.println("\n1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
+            System.out.println("-----------------------------");
             String choice = input.nextLine().trim();
- 
+            
             switch (choice) {
                 case "1":
                     if (entered >= maxMessages) {
@@ -97,13 +107,16 @@ public class ProgAssignmentPrt1 {
     private static Message createMessage(Scanner input) {
         String recipient;
         while (true) {
+            System.out.println("-----------------------------");
             System.out.println("Enter recipient cell number (max 10 characters, starting with international code e.g. +27):");
             recipient = input.nextLine().trim();
             if (new Message(recipient, "x").checkRecipientCell()) break;
             System.out.println("Cell number is incorrectly formatted or does not contain an international code.");
+            System.out.println("-----------------------------");
         }
         String text;
         while (true) {
+            System.out.println("-----------------------------");
             System.out.println("Enter your message:");
             text = input.nextLine();
             if (text.trim().isEmpty()) {
@@ -114,6 +127,7 @@ public class ProgAssignmentPrt1 {
                 System.out.println("Message sent");
                 break;
             }
+            System.out.println("-----------------------------");
         }
         return new Message(recipient, text);
     }
