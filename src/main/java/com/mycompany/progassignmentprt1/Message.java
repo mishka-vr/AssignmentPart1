@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
  
-/**
- * A single QuickChat message plus the running totals for the session.
- */
+//A single QuickChat message plus the running totals for the session.
 public class Message {
  
     public static final int MAX_MESSAGE_LENGTH = 250;
@@ -60,7 +58,6 @@ public class Message {
                 && recipient.matches("^\\+\\d+$");
     }
  
-    /** Hash = first two digits of ID : message number : FIRSTWORDLASTWORD (all caps). */
     public String createMessageHash() {
         String trimmed = text.trim();
  
@@ -79,11 +76,6 @@ public class Message {
         String last = trimmed.substring(lastStart).replaceAll("[^A-Za-z0-9]", "");
         return (messageID.substring(0, 2) + ":" + messageNumber + ":" + first + last).toUpperCase();
     }
- 
-    /**
-     * Lets the user choose to send, disregard or store the message.
-     * Returns the result message for the chosen option.
-     */
     public String SentMessage(Scanner input) {
         while (true) {
             System.out.println("Choose an option:");
@@ -123,7 +115,7 @@ public class Message {
     }
  
     public void storeMessage() {
-        // Gson turns this Message object (its fields) into a JSON object
+        // Gson turns this Message object into a JSON object
         String entry = gson.toJson(this);
         if (!storedEntries.isEmpty()) {
             storedEntries += ",\n";
@@ -138,8 +130,6 @@ public class Message {
         }
     }
  
-    /** Full details in the required order: ID, Hash, Recipient, Message.
-     * @return  */
     public String details() {
         return "Message ID: " + messageID + "\n"
                 + "Message Hash: " + messageHash + "\n"
