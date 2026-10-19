@@ -32,6 +32,11 @@ public boolean checkUserName(String username){
                 return false;
             }              
 }
+
+public void setName(String firstName, String lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+}
 //checking if the user's password suits the cirteria
 public boolean CheckPassword(String password){
     if(password.length()<8){
