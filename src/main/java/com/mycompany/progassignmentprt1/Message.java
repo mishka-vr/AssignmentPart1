@@ -4,7 +4,10 @@
  */
 package com.mycompany.progassignmentprt1;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -33,6 +36,10 @@ public class Message {
         this.recipient = recipient;
         this.text = text;
         this.messageHash = createMessageHash();
+    }
+     private static String generateMessageID() {
+        long n = random.nextLong(10_000_000_000L);
+        return String.format("%010d", n);
     }
     
     public String generateTaskID(){
@@ -95,6 +102,49 @@ public class Message {
             }
         }
     }
+   public static String printMessages() {
+        if (sentLog.isEmpty()) {
+            return "No messages have been sent yet.";
+        }
+        return sentLog;
+    }
    
-   
+   public static int returnTotalMessages() {
+        return totalSent;
+    }
+   // Stores this message in storedMessages.json (a JSON array of message objects). 
+    public void storeMessage() {
+        String entry = "  {\n"
+                + "    \"messageID\": \"" + escape(messageID) + "\",\n"
+                + "    \"messageHash\": \"" + escape(messageHash) + "\",\n"
+                + "    \"recipient\": \"" + escape(recipient) + "\",\n"
+                + "    \"message\": \"" + escape(text) + "\"\n"
+                + "  }";
+        if (!storedEntries.isEmpty()) {
+            storedEntries += ",\n";
+        }
+        storedEntries += entry;
+ 
+        // rewrite the file with every message stored so far, so it is always valid JSON
+        try (FileWriter writer = new FileWriter(STORE_FILE)) {
+            writer.write("[\n" + storedEntries + "\n]");
+        } catch (IOException e) {
+            System.out.println("Could not store the message: " + e.getMessage());
+        }
+    }    
+    private static String escape(String s) {
+        return s.replace("\\", "\\\\").replace("\"", "\\\"")
+                .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
+    }
+ 
+    //Full details in the required order: ID, Hash, Recipient, Message. 
+    public String details() {
+        return "Message ID: " + messageID + "\n"
+                + "Message Hash: " + messageHash + "\n"
+                + "Recipient: " + recipient + "\n"
+                + "Message: " + text;
+    }
+ 
+    public String getMessageHash() { return messageHash; }
+    public String getMessageID() { return messageID; }    
 }
