@@ -58,17 +58,17 @@ public class Message {
         return String.format("%010d", n);
     }
 
-    /** Message ID must be no more than ten characters. */
+    
     public boolean checkMessageID() {
         return messageID != null && messageID.length() <= MAX_ID_LENGTH;
     }
 
-    /** Returns the "Message ID generated: ..." message. */
+    // Returns the "Message ID generated: ..." message. 
     public String createMessageID() {
         return "Message ID generated: " + messageID;
     }
 
-    /** Checks the message is no more than 250 characters. */
+    // Checks the message is no more than 250 characters. 
     public static String checkMessageLength(String text) {
         if (text.length() <= MAX_MESSAGE_LENGTH) {
             return MSG_READY;
@@ -77,7 +77,7 @@ public class Message {
         return "Message exceeds 250 characters by " + over + "; please reduce the size.";
     }
 
-    /** Cell number must start with an international code (+) followed by digits only (at most ten after the code). */
+    // Cell number must start with an international code (+) followed by digits only (at most ten after the code).
     public static String checkRecipientCell(String recipient) {
         if (recipient != null && recipient.matches("^\\+\\d{5,13}$")) {
             return CELL_OK;
@@ -85,7 +85,7 @@ public class Message {
         return CELL_BAD;
     }
 
-    /** Hash = first two digits of ID : message number : FIRSTWORDLASTWORD (all caps). */
+    // Hash = first two digits of ID : message number : FIRSTWORDLASTWORD (all caps). 
     public String createMessageHash() {
         String trimmed = text.trim();
 
@@ -105,10 +105,7 @@ public class Message {
         return (messageID.substring(0, 2) + ":" + messageNumber + ":" + first + last).toUpperCase();
     }
 
-    /**
-     * Lets the user choose to send, disregard or store the message.
-     * Returns the result message for the chosen option.
-     */
+    
     public String SentMessage(Scanner input) {
         while (true) {
             System.out.println("Choose an option:");
@@ -133,7 +130,7 @@ public class Message {
         }
     }
 
-    /** All messages sent while the program is running. */
+    
     public static String printMessages() {
         if (sentLog.isEmpty()) {
             return "No messages have been sent yet.";
@@ -141,19 +138,19 @@ public class Message {
         return sentLog;
     }
 
-    /** Total number of messages sent. */
+    
     public static int returnTotalMessages() {
         return totalSent;
     }
 
-    /** Clears the running totals (used by the unit tests so each test starts fresh). */
+    // Clears the running totals (used by the unit tests so each test starts fresh).
     public static void resetMessages() {
         sentLog = "";
         storedEntries = "";
         totalSent = 0;
     }
 
-    /** Stores this message in storedMessages.json (a JSON array of message objects) using Gson. */
+    //Stores this message in storedMessages.json (a JSON array of message objects) using Gson. 
     public void storeMessage() {
         // Gson turns this Message object (its fields) into a JSON object
         String entry = gson.toJson(this);
@@ -170,7 +167,7 @@ public class Message {
         }
     }
 
-    /** Full details in the required order: ID, Hash, Recipient, Message. */
+    
     public String details() {
         return "Message ID: " + messageID + "\n"
                 + "Message Hash: " + messageHash + "\n"
