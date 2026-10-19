@@ -4,22 +4,26 @@
  */
 package com.mycompany.progassignmentprt1;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
-
+ 
 /**
- *
- * @author Student
+ * A single QuickChat message plus the running totals for the session.
  */
 public class Message {
-   public static final int MAX_MESSAGE_LENGTH = 250; //sets the max length for the message
-    private static final int MAX_ID_LENGTH = 10;     //sets the max length for the id
+ 
+    public static final int MAX_MESSAGE_LENGTH = 250;
+    private static final int MAX_ID_LENGTH = 10;
     private static final int MAX_CELL_LENGTH = 10;
     private static final String STORE_FILE = "storedMessages.json";
     private static final Random random = new Random();
-    
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+ 
+    // shared across the whole program run
     private static String sentLog = "";   // details of every message sent this run
     private static String storedEntries = "";   // JSON objects of every message stored this run
     private static int totalSent = 0;
@@ -37,45 +41,50 @@ public class Message {
         this.text = text;
         this.messageHash = createMessageHash();
     }
-     private static String generateMessageID() {
+ 
+    // ten-digit random number (leading zeros allowed, e.g. 0012345678)
+    private static String generateMessageID() {
         long n = random.nextLong(10_000_000_000L);
         return String.format("%010d", n);
     }
-    
-    public String generateTaskID(){
-        Random obj = new Random();
-        long taskID = random.nextLong(10_000_000_000L);
-        return String.valueOf(taskID);
-    }
-     public boolean checkMessageID() {
+ 
+    /** Message ID must be no more than ten characters. */
+    public boolean checkMessageID() {
         return messageID != null && messageID.length() <= MAX_ID_LENGTH;
-     }
-     
-     public boolean checkRecipientCell() {
+    }
+ 
+    /** Cell number: no more than ten characters and starts with an international code (+...). */
+    public boolean checkRecipientCell() {
         return recipient != null
                 && recipient.length() <= MAX_CELL_LENGTH
                 && recipient.matches("^\\+\\d+$");
     }
-    
-     
+ 
+    /** Hash = first two digits of ID : message number : FIRSTWORDLASTWORD (all caps). */
     public String createMessageHash() {
         String trimmed = text.trim();
-        
-         // first word: characters up to the first whitespace
+ 
+        // first word: characters up to the first whitespace
         int firstEnd = 0;
         while (firstEnd < trimmed.length() && !Character.isWhitespace(trimmed.charAt(firstEnd))) {
             firstEnd++;
-         }
+        }
         // last word: characters after the last whitespace
         int lastStart = trimmed.length();
         while (lastStart > 0 && !Character.isWhitespace(trimmed.charAt(lastStart - 1))) {
             lastStart--;
         }
+ 
         String first = trimmed.substring(0, firstEnd).replaceAll("[^A-Za-z0-9]", "");
         String last = trimmed.substring(lastStart).replaceAll("[^A-Za-z0-9]", "");
         return (messageID.substring(0, 2) + ":" + messageNumber + ":" + first + last).toUpperCase();
     }
-   public String SentMessage(Scanner input) {
+ 
+    /**
+     * Lets the user choose to send, disregard or store the message.
+     * Returns the result message for the chosen option.
+     */
+    public String SentMessage(Scanner input) {
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1) Send Message");
@@ -102,24 +111,20 @@ public class Message {
             }
         }
     }
-   public static String printMessages() {
+    public static String printMessages() {
         if (sentLog.isEmpty()) {
             return "No messages have been sent yet.";
         }
         return sentLog;
     }
-   
-   public static int returnTotalMessages() {
+ 
+    public static int returnTotalMessages() {
         return totalSent;
     }
-   // Stores this message in storedMessages.json (a JSON array of message objects). 
+ 
     public void storeMessage() {
-        String entry = "  {\n"
-                + "    \"messageID\": \"" + escape(messageID) + "\",\n"
-                + "    \"messageHash\": \"" + escape(messageHash) + "\",\n"
-                + "    \"recipient\": \"" + escape(recipient) + "\",\n"
-                + "    \"message\": \"" + escape(text) + "\"\n"
-                + "  }";
+        // Gson turns this Message object (its fields) into a JSON object
+        String entry = gson.toJson(this);
         if (!storedEntries.isEmpty()) {
             storedEntries += ",\n";
         }
@@ -131,13 +136,10 @@ public class Message {
         } catch (IOException e) {
             System.out.println("Could not store the message: " + e.getMessage());
         }
-    }    
-    private static String escape(String s) {
-        return s.replace("\\", "\\\\").replace("\"", "\\\"")
-                .replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t");
     }
  
-    //Full details in the required order: ID, Hash, Recipient, Message. 
+    /** Full details in the required order: ID, Hash, Recipient, Message.
+     * @return  */
     public String details() {
         return "Message ID: " + messageID + "\n"
                 + "Message Hash: " + messageHash + "\n"
@@ -146,5 +148,5 @@ public class Message {
     }
  
     public String getMessageHash() { return messageHash; }
-    public String getMessageID() { return messageID; }    
+    public String getMessageID() { return messageID; }
 }
