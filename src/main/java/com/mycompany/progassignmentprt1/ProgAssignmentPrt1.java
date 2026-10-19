@@ -84,7 +84,12 @@ public class ProgAssignmentPrt1 {
                         entered++;
                         String outcome = msg.SentMessage(input);
                         System.out.println(outcome);
-                        if (outcome.equals("Message successfully sent")) {
+                        if (outcome.equals(Message.MSG_DISREGARD)) {
+                            while (!input.nextLine().trim().equals("0")) {
+                                System.out.println(Message.MSG_DISREGARD);
+                            }
+                            System.out.println("Message deleted.");
+                        } else if (outcome.equals(Message.MSG_SENT)) {
                             System.out.println(msg.details());
                         }
                     }
@@ -108,10 +113,13 @@ public class ProgAssignmentPrt1 {
         String recipient;
         while (true) {
             System.out.println("-----------------------------");
-            System.out.println("Enter recipient cell number (max 10 characters, starting with international code e.g. +27):");
+            System.out.println("Enter recipient cell number (starting with international code e.g. +27...):");
             recipient = input.nextLine().trim();
-            if (new Message(recipient, "x").checkRecipientCell()) break;
-            System.out.println("Cell number is incorrectly formatted or does not contain an international code.");
+            String cellResult = Message.checkRecipientCell(recipient);
+            System.out.println(cellResult);
+            if (cellResult.equals(Message.CELL_OK)) {
+                break;
+            }
             System.out.println("-----------------------------");
         }
         String text;
@@ -121,11 +129,12 @@ public class ProgAssignmentPrt1 {
             text = input.nextLine();
             if (text.trim().isEmpty()) {
                 System.out.println("Message cannot be empty.");
-            } else if (text.length() > Message.MAX_MESSAGE_LENGTH) {
-                System.out.println("Please enter a message of less than 250 characters.");
             } else {
-                System.out.println("Message sent");
-                break;
+                String lengthResult = Message.checkMessageLength(text);
+                System.out.println(lengthResult);
+                if (lengthResult.equals(Message.MSG_READY)) {
+                    break;
+                }
             }
             System.out.println("-----------------------------");
         }
@@ -143,7 +152,3 @@ public class ProgAssignmentPrt1 {
         }
     }
 }
-
-       
-
-
