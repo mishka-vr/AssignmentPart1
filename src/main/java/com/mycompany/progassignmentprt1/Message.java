@@ -45,13 +45,11 @@ public class Message {
         long n = random.nextLong(10_000_000_000L);
         return String.format("%010d", n);
     }
- 
-    /** Message ID must be no more than ten characters. */
     public boolean checkMessageID() {
         return messageID != null && messageID.length() <= MAX_ID_LENGTH;
     }
  
-    /** Cell number: no more than ten characters and starts with an international code (+...). */
+    // Cell number: no more than ten characters and starts with an international code 
     public boolean checkRecipientCell() {
         return recipient != null
                 && recipient.length() <= MAX_CELL_LENGTH
