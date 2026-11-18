@@ -63,16 +63,20 @@ public class ProgAssignmentPrt1 {
         System.out.println("-----------------------------");
         int maxMessages = readPositiveInt(input, "How many messages do you wish to enter?");
         int entered = 0;
-        
+    
+    // Part 3: load the stored messages from the JSON file into the Stored Messages array
+        MessageManager.loadStoredMessages("storedMessages.json");
+
         boolean running = true;
         while (running) {
             System.out.println("-----------------------------");
             System.out.println("\n1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
+            System.out.println("4) Stored Messages");
             System.out.println("-----------------------------");
             String choice = input.nextLine().trim();
-            
+
             switch (choice) {
                 case "1":
                     if (entered >= maxMessages) {
@@ -101,8 +105,11 @@ public class ProgAssignmentPrt1 {
                 case "3":
                     running = false;
                     break;
+                case "4":
+                    storedMessagesMenu(input, firstName);
+                    break;
                 default:
-                    System.out.println("Invalid option, please enter 1, 2 or 3.");
+                    System.out.println("Invalid option, please enter 1, 2, 3 or 4.");
             }
         }
         System.out.println("Total messages sent: " + Message.returnTotalMessages());
