@@ -114,7 +114,7 @@ public class ProgAssignmentPrt1 {
         }
         System.out.println("Total messages sent: " + Message.returnTotalMessages());
     }
- //Part 3 : stores messaged menue
+ //Part 3 : stored messaged menue
     private static void storedMessagesMenu(Scanner input, String sender) {
         boolean back = false;
         while (!back) {
@@ -200,7 +200,7 @@ public class ProgAssignmentPrt1 {
         }
         return new Message(recipient, text);
     }
- 
+    
     private static int readPositiveInt(Scanner input, String prompt) {
         while (true) {
             System.out.println(prompt);
@@ -209,7 +209,6 @@ public class ProgAssignmentPrt1 {
                 if (n > 0) return n;
             } catch (NumberFormatException ignored) { }
             System.out.println("Please enter a whole number greater than 0.");
-        }
-        
+        }        
     }
 }
