@@ -107,7 +107,60 @@ public class ProgAssignmentPrt1 {
         }
         System.out.println("Total messages sent: " + Message.returnTotalMessages());
     }
- 
+ //Part 3 : stores messaged menue
+    private static void storedMessagesMenu(Scanner input, String sender) {
+        boolean back = false;
+        while (!back) {
+            System.out.println("-----------------------------");
+            System.out.println("Stored Messages");
+            System.out.println("1) Display sender and recipient of all sent messages");
+            System.out.println("2) Display the longest message");
+            System.out.println("3) Search for a message ID");
+            System.out.println("4) Search messages by recipient");
+            System.out.println("5) Delete a message using its hash");
+            System.out.println("6) Display report of all sent messages");
+            System.out.println("7) Back");
+            System.out.println("-----------------------------");
+            switch (input.nextLine().trim()) {
+                case "1":
+             System.out.println(MessageManager.displaySendersAndRecipients(sender));
+                    break;
+                case "2":
+                    String longest = MessageManager.longestMessage();
+                    System.out.println(longest.isEmpty() ? "No messages." : longest);
+                    break;
+                case "3":
+                    System.out.println("Enter message ID:");
+                    Message m = MessageManager.findByID(input.nextLine().trim());
+                    System.out.println(m == null ? "Message ID not found."
+                            : "Recipient: " + m.getRecipient() + "\nMessage: " + m.getText());
+                    break;
+                case "4":
+                    System.out.println("Enter recipient number:");
+                    String[] found = MessageManager.messagesForRecipient(input.nextLine().trim());
+                    if (found.length == 0) {
+                        System.out.println("No messages for that recipient.");
+                    }
+                    for (int i = 0; i < found.length; i++) {
+                        System.out.println(found[i]);
+                    }
+                    break;
+                case "5":
+                    System.out.println("Enter message hash:");
+                    System.out.println(MessageManager.deleteByHash(input.nextLine().trim()));
+                    break;
+                case "6":
+                    System.out.println(MessageManager.displayReport());
+                    break;
+                case "7":
+                    back = true;
+                    break;
+                default:
+                    System.out.println("Invalid option, please enter 1 to 7.");
+            }
+        }
+    }        
+    
     // asks for recipient + text until both are valid
     private static Message createMessage(Scanner input) {
         String recipient;
@@ -150,5 +203,6 @@ public class ProgAssignmentPrt1 {
             } catch (NumberFormatException ignored) { }
             System.out.println("Please enter a whole number greater than 0.");
         }
+        
     }
 }
