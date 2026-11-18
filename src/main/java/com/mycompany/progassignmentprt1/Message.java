@@ -175,14 +175,17 @@ public class Message {
                 + "Message: " + text;
     }
 
-    public String getMessageHash() { return messageHash; }
-    public String getMessageID() { return messageID; }
-
-    String getText() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getMessageHash() {
+        return messageHash; 
+    }
+    public String getMessageID() { 
+        return messageID;
+    }
+   public String getText() {
+    return text;
     }
 
-    String getRecipient() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getRecipient() {
+        return recipient;
     }
 }
