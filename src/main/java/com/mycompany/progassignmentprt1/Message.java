@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
-/**
- * A single QuickChat message plus the running totals for the session.
- */
+//A single QuickChat message plus the running totals for the session.
+ 
 public class Message {
 
     public static final int MAX_MESSAGE_LENGTH = 250;
@@ -38,7 +37,8 @@ public class Message {
     private final String text;
     private final String messageHash;
 
-    // used by the program: ID is random, message number is how many messages have been sent so far (starts at 0)
+    // used by the program: ID is random, message number is how many messages have been sent so far 
+    //(starts at 0)
     public Message(String recipient, String text) {
         this(generateMessageID(), totalSent, recipient, text);
     }

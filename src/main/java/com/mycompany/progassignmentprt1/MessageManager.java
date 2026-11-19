@@ -28,7 +28,7 @@ public class MessageManager {
     public static int storedCount = 0;
     public static int hashCount = 0;   // messageHashes and messageIDs always stay in step
     
-    // ---------- populating the arrays ----------
+    // populating the arrays 
 
     public static void addSent(Message m) {
         if (sentCount == sentMessages.length) {
