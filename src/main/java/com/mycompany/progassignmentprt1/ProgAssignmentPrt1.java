@@ -114,7 +114,7 @@ public class ProgAssignmentPrt1 {
         }
         System.out.println("Total messages sent: " + Message.returnTotalMessages());
     }
- //Part 3 : stored messaged menue
+ // stored messaged menue
     private static void storedMessagesMenu(Scanner input, String sender) {
         boolean back = false;
         while (!back) {
